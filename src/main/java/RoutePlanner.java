@@ -8,27 +8,32 @@ public class RoutePlanner {
 
     private List<Character> finalRoute = new ArrayList<Character>();
 
-    public List<Character> planner(char[][] destinations) {
-        for (char[] destinationPair : destinations) {
-            if (destinationPair.length == 1 & !finalRoute.contains(destinationPair[0])) {
-                finalRoute.add(destinationPair[0]);
-            } else if (destinationPair.length == 2) {
-                if(!finalRoute.contains(destinationPair[1]) & !finalRoute.contains(destinationPair[0])) {
-                    finalRoute.add(destinationPair[1]);
-                    finalRoute.add(destinationPair[0]);
-                } else if(!finalRoute.contains(destinationPair[0])) {
-                    finalRoute.add(destinationPair[0]);
-                } else if(!finalRoute.contains(destinationPair[1])) {
+    public List<Character> planner(ArrayList<Destination> destinations) {
+        for (Destination destinationPair : destinations) {
+
+            if (destinationPair.getDependency() == 0 & !finalRoute.contains(destinationPair.getPoint())) {
+                finalRoute.add(destinationPair.getPoint());
+
+            } else if (destinationPair.getDependency() != 0) {
+                if(!finalRoute.contains(destinationPair.getDependency()) &
+                        !finalRoute.contains(destinationPair.getPoint())) {
+                    finalRoute.add(destinationPair.getDependency());
+                    finalRoute.add(destinationPair.getPoint());
+
+                } else if(!finalRoute.contains(destinationPair.getPoint())) {
+                    finalRoute.add(destinationPair.getPoint());
+
+                } else if(!finalRoute.contains(destinationPair.getDependency())) {
                     for (int index = 0; index < finalRoute.size(); index++) {
-                        if (finalRoute.get(index) == (destinationPair[0])) {
-                            finalRoute.add(index, destinationPair[1]);
+                        if (finalRoute.get(index) == (destinationPair.getPoint())) {
+                            finalRoute.add(index, destinationPair.getDependency());
                             break;
                         }
                     }
                 }
-
             }
         }
+
         return finalRoute;
     }
 }
