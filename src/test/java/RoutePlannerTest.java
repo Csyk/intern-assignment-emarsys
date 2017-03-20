@@ -42,9 +42,23 @@ public class RoutePlannerTest {
     }
 
     @Test
-    public void plannerWithThreeDestinations() throws Exception {
+    public void plannerWithThreeDestinationsXpointYdependecyUnknown() throws Exception {
         List finalRoute = routePlanner.planner(new char[][]{{'z'}, {'x', 'y'}, {'y', 'z'}});
         ArrayList<Character> expected = new ArrayList<Character>(asList('z', 'y', 'x'));
+        assertEquals(expected, finalRoute);
+    }
+
+    @Test
+    public void plannerWithFourDestinationsTpointUnknown() throws Exception {
+        List finalRoute = routePlanner.planner(new char[][]{{'z'}, {'x', 'y'}, {'y', 'z'}, {'t', 'x'}});
+        ArrayList<Character> expected = new ArrayList<Character>(asList('z', 'y', 'x', 't'));
+        assertEquals(expected, finalRoute);
+    }
+
+    @Test
+    public void plannerWithFiveDestinationsWdependencyUnknown() throws Exception {
+        List finalRoute = routePlanner.planner(new char[][]{{'z'}, {'x', 'y'}, {'y', 'z'}, {'v', 'u'}, {'u', 'w'}});
+        ArrayList<Character> expected = new ArrayList<Character>(asList('z', 'y', 'x', 'w', 'u', 'v'));
         assertEquals(expected, finalRoute);
     }
 }
