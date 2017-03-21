@@ -1,3 +1,5 @@
+import exception.NoLocationException;
+import model.Destination;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,15 +14,29 @@ import static org.junit.Assert.assertEquals;
  */
 public class RoutePlannerTest {
 
-    private RoutePlanner routePlanner = new RoutePlanner();
-    private Destination destinationX = new Destination('x');
-    private Destination destinationY = new Destination('y');
-    private Destination destinationZ = new Destination('z');
-    private Destination destinationXY = new Destination('x', 'y');
-    private Destination destinationYZ = new Destination('y', 'z');
-    private Destination destinationTX = new Destination('t', 'x');
-    private Destination destinationVU = new Destination('v', 'u');
-    private Destination destinationUW = new Destination('u', 'w');
+    private RoutePlanner routePlanner;
+    private Destination destinationX;
+    private Destination destinationY;
+    private Destination destinationZ;
+    private Destination destinationXY;
+    private Destination destinationYZ;
+    private Destination destinationTX;
+    private Destination destinationVU;
+    private Destination destinationUW;
+    private ArrayList<Destination> emptyDestination;
+
+    @Before
+    public void setUp() throws Exception {
+        routePlanner = new RoutePlanner();
+        destinationX = new Destination('x');
+        destinationY = new Destination('y');
+        destinationZ = new Destination('z');
+        destinationXY = new Destination('x', 'y');
+        destinationYZ = new Destination('y', 'z');
+        destinationTX = new Destination('t', 'x');
+        destinationVU = new Destination('v', 'u');
+        destinationUW = new Destination('u', 'w');
+    }
 
     @Test
     public void plannerWithOneXDestination() throws Exception{
@@ -73,5 +89,10 @@ public class RoutePlannerTest {
                         destinationUW)));
         ArrayList<Character> expected = new ArrayList<Character>(asList('z', 'y', 'x', 'w', 'u', 'v'));
         assertEquals(expected, finalRoute);
+    }
+
+    @Test(expected = NoLocationException.class)
+    public void noLocationException() throws Exception {
+        List finalRoute = routePlanner.planner(emptyDestination);
     }
 }
